@@ -31,6 +31,7 @@ jobs:
           meson setup build --prefix ${{ github.workspace }}\dist -Dbuild-tests=false -Dmedia-gstreamer=disabled
           meson compile -C build
           meson install -C build
+          7z a natives.zip dist\bin\*.dll
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -46,4 +47,4 @@ jobs:
           prerelease: false
           title: "GTK Natives for ${{ inputs.tag }}"
           files: |
-            dist\bin\*.dll
+            natives.zip
