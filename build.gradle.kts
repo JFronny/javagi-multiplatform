@@ -37,7 +37,7 @@ jlink {
     }
     jpackage {
         vendor = "Some Corp"
-        jvmArgs.add("--enable-preview")
+        jvmArgs.addAll(listOf("--enable-preview", "-Djava.library.path=\$APPDIR/lib"))
         installerName = "JavaGI Multiplatform Example"
         if(os.isMacOsX) {
             //installerType = "app-image"
