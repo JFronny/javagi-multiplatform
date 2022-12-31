@@ -32,19 +32,27 @@ jobs:
           meson compile -C build
           meson install -C build
           7z a natives.zip dist\bin\*.dll
-      - name: Archive production artifacts
+          7z a executable.zip dist\bin\*.exe
+      - name: Library artifact
         uses: actions/upload-artifact@v3
         with:
           name: natives
           path: |
             dist\bin\*.dll
+      - name: Application artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: natives
+          path: |
+            dist\bin\*.exe
       - name: Generate Release
         uses: "marvinpinto/action-automatic-releases@latest"
         if: ${{ inputs.release }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest-1.19"
+          automatic_release_tag: "natives"
           prerelease: false
           title: "GTK Natives for ${{ inputs.tag }}"
           files: |
             natives.zip
+            executable.zip
