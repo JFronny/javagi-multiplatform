@@ -22,7 +22,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jpackage-linux
-          path: build/jpackage
+          path: |
+            build/jpackage/*.rpm
+            build/jpackage/*.deb
 
   build-macos:
     runs-on: macos-latest
@@ -41,7 +43,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jpackage-macos
-          path: build/jpackage
+          path: |
+            build/jpackage/*.pkg
+            build/jpackage/*.dmg
 
   build-windows:
     runs-on: windows-latest
@@ -59,4 +63,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jpackage-windows
-          path: build/jpackage
+          path: |
+            build/jpackage/*.msi
+            build/jpackage/*.exe
