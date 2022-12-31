@@ -31,8 +31,10 @@ jobs:
           meson setup build --prefix ${{ github.workspace }}\dist -Dbuild-tests=false -Dmedia-gstreamer=disabled
           meson compile -C build
           meson install -C build
-          7z a natives.zip dist\bin\*.dll
-          7z a executable.zip dist\bin\*.exe
+          cd dist\bin
+          7z a ..\..\natives.zip *.dll
+          7z a ..\..\executable.zip *.exe
+          cd ..\..
       - name: Library artifact
         uses: actions/upload-artifact@v3
         with:
