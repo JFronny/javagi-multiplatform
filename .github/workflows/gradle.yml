@@ -19,7 +19,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew jpackageImage
       - name: Test if native executable runs
-        run: build/jpackage/jpackage-natives/bin/jpackage-natives
+        run: build/jpackage/javagi-multiplatform/bin/javagi-multiplatform
 
   build-macos:
     runs-on: macos-latest
@@ -35,7 +35,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew jpackageImage
       - name: Test if native executable runs
-        run: build/jpackage/jpackage-natives.app/Contents/MacOS/jpackage-natives
+        run: build/jpackage/javagi-multiplatform.app/Contents/MacOS/javagi-multiplatform
 
   build-windows:
     runs-on: windows-latest
@@ -51,4 +51,4 @@ jobs:
         run: gradlew.bat jpackageImage
       - name: Test if native executable runs
         shell: cmd
-        run: build\jpackage\jpackage-natives\jpackage-natives.exe
+        run: build\jpackage\javagi-multiplatform\javagi-multiplatform.exe

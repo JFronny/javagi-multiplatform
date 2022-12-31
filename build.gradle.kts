@@ -31,7 +31,7 @@ tasks.run.get().jvmArgs!!.add("--enable-preview")
 jlink {
     addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages", "--verbose")
     launcher {
-        name = "javagi-multiplatform example"
+        name = "javagi-multiplatform"
     }
     jpackage {
         vendor = "Some Corp"
