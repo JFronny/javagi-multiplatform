@@ -1,0 +1,54 @@
+name: Build multiplatform example
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          distribution: 'temurin'
+          java-version: 19
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew jpackageImage
+      - name: Test if native executable runs
+        run: build/jpackage/jpackage-natives/bin/jpackage-natives
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 19
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew jpackageImage
+      - name: Test if native executable runs
+        run: build/jpackage/jpackage-natives.app/Contents/MacOS/jpackage-natives
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 19
+      - name: Build with Gradle
+        shell: cmd
+        run: gradlew.bat jpackageImage
+      - name: Test if native executable runs
+        shell: cmd
+        run: build\jpackage\jpackage-natives\jpackage-natives.exe
