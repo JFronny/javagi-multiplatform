@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.gitlab.jfronny"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 application {
     mainClass.set("io.gitlab.jfronny.javagi.example.Main")
