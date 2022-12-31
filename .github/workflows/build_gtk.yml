@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Install Dependencies
         run: |
-          choco uninstall mingw
+          choco uninstall mingw strawberryperl cmake
           pip install meson ninja
       - name: Clone GTK tree
         uses: actions/checkout@v3
