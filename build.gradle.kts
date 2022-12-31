@@ -1,4 +1,5 @@
 import org.gradle.internal.os.OperatingSystem
+import java.nio.file.Path
 
 plugins {
     java
@@ -36,6 +37,7 @@ jlink {
     jpackage {
         vendor = "Some Corp"
         jvmArgs.add("--enable-preview")
+        installerName = "JavaGI Multiplatform Example"
         if(OperatingSystem.current().isMacOsX) {
             //installerType = "app-image"
         } else if(OperatingSystem.current().isWindows) {
@@ -46,3 +48,18 @@ jlink {
         }
     }
 }
+
+//TODO download the Windows natives if running on Windows
+//val pth = projectDir.resolve("natives")
+//tasks.jpackageImage {
+//    doLast {
+//        def appName = jpackageData . imageName
+//                def dir = "$jpackageData.imageOutputDir/$appName"
+//        file("$dir/lib").mkdirs()
+//        ant.move(todir: "$dir/lib") {
+//            fileset(dir: dir) {
+//                include name : "*.dll"
+//            }
+//        }
+//    }
+//}
