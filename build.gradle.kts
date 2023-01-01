@@ -37,7 +37,7 @@ jlink {
     }
     jpackage {
         vendor = "Some Corp"
-        jvmArgs.addAll(listOf("--enable-preview", "-Djava.library.path=\$APPDIR/lib"))
+        jvmArgs.addAll(listOf("--enable-preview", "-Djava.library.path=\$APPDIR"))
         installerName = "JavaGI Multiplatform Example"
         if(os.isMacOsX) {
             //installerType = "app-image"
@@ -66,7 +66,7 @@ if (os.isWindows) {
     tasks.jpackageImage {
         dependsOn(extractNatives)
         doLast {
-            val dir = jpackageData.imageOutputDir.resolve(jpackageData.imageName).resolve("lib")
+            val dir = jpackageData.imageOutputDir.resolve(jpackageData.imageName).resolve("app")
             dir.mkdirs()
             for (file in extractNatives.get().destinationDir.listFiles()) {
                 file.copyTo(dir.resolve(file.name))

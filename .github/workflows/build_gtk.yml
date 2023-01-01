@@ -28,7 +28,7 @@ jobs:
           submodules: recursive
       - name: Perform Build
         run: |
-          meson setup build --prefix ${{ github.workspace }}\dist -Dbuild-tests=false -Dmedia-gstreamer=disabled
+          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release -Db_pie=true -Db_lto=true -Dbuild-tests=false -Dmedia-gstreamer=disabled
           meson compile -C build
           meson install -C build
           cd dist\bin
