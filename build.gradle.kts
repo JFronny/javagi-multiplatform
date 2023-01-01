@@ -10,6 +10,7 @@ version = "1.0"
 
 application {
     mainClass.set("io.gitlab.jfronny.javagi.example.Main")
+    mainModule.set("io.gitlab.jfronny.javagi.example")
 }
 
 repositories {
@@ -37,29 +38,25 @@ if (os.isWindows) {
         overwrite(false)
     }
 
-    val extractNatives by tasks.registering(Copy::class) {
-        dependsOn(downloadNatives)
-        from(zipTree(downloadNatives.get().dest))
-        into(buildDir.resolve("natives"))
-    }
-
     tasks.jpackageImage {
-        dependsOn(extractNatives)
+        dependsOn(downloadNatives)
+        doLast {
+            copy {
+                from(zipTree(downloadNatives.get().dest))
+                into(buildDir.resolve("jpackage/${project.name}/app/natives"))
+            }
+        }
     }
 }
 
 jlink {
     addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages", "--verbose")
-    launcher {
-        name = "javagi-multiplatform"
-    }
     jpackage {
         vendor = "Some Corp"
         jvmArgs.add("--enable-preview")
         installerName = "JavaGI Multiplatform Example"
         if (os.isWindows) {
-            jvmArgs.add("-Djava.library.path=\$APPDIR/natives")
-            imageOptions.addAll(listOf("--app-content", buildDir.resolve("natives").toString()))
+            jvmArgs.add("-Djavagi.path=\$APPDIR/natives")
         }
         if(os.isMacOsX) {
             //installerType = "app-image"
