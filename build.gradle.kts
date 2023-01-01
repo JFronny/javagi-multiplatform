@@ -17,7 +17,7 @@ repositories {
     // Mirror for javagi maven, since that requires authentication
     // and I didn't want to figure out how to pass the GitHub Actions token here
     // Also, the build hosted here includes the libload branches changes, which are needed for windows support
-    maven("https://maven.frohnmeyer-wds.de/java-gi")
+    maven("https://maven.frohnmeyer-wds.de/javagi-libload")
 }
 
 dependencies {
