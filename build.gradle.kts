@@ -59,7 +59,7 @@ jlink {
             //installerType = "app-image"
         } else if(os.isWindows) {
             //installerType = "msi"
-            installerOptions.addAll(listOf("--win-per-user-install", "--win-dir-chooser", "--win-menu"))
+            installerOptions.addAll(listOf("--win-per-user-install", "--win-dir-chooser", "--win-menu", "--win-console"))
         } else {
             //installerType = "deb"
         }
