@@ -78,4 +78,3 @@ jlink {
         }
     }
 }
-UUID.fromString("")
