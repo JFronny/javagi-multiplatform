@@ -71,8 +71,9 @@ jlink {
                 "--win-per-user-install",
                 "--win-dir-chooser",
                 "--win-menu",
-                "--win-upgrade-uuid", "1d2e433e-f2e1-43bc-9cd4-60d1ec6b7833", // Update this UUID if you fork the project!!!
-                "--win-console"))
+                "--win-upgrade-uuid", "1d2e433e-f2e1-43bc-9cd4-60d1ec6b7833" // Update this UUID if you fork the project!!!
+           ))
+            imageOptions.add("--win-console")
         } else {
             //installerType = "deb"
         }
