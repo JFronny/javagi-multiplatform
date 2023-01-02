@@ -1,5 +1,3 @@
-import java.util.UUID
-
 plugins {
     java
     application
@@ -45,7 +43,7 @@ if (os.isWindows) {
         doLast {
             copy {
                 from(zipTree(downloadNatives.get().dest))
-                into(buildDir.resolve("jpackage/${project.name}/runtime/bin"))
+                into(buildDir.resolve("jpackage/${project.name}/app"))
             }
         }
     }
@@ -61,7 +59,11 @@ jlink {
     )
     jpackage {
         vendor = "Some Corp"
-        jvmArgs.add("--enable-preview")
+        jvmArgs.addAll(listOf(
+            "--enable-preview",
+            "--enable-native-access=org.glib",
+            "--enable-native-access=org.gtk"
+        ))
         installerName = "JavaGI Multiplatform Example"
         if(os.isMacOsX) {
             //installerType = "app-image"
@@ -73,7 +75,7 @@ jlink {
                 "--win-menu",
                 "--win-upgrade-uuid", "1d2e433e-f2e1-43bc-9cd4-60d1ec6b7833" // Update this UUID if you fork the project!!!
            ))
-            imageOptions.add("--win-console")
+            //imageOptions.add("--win-console") // Enable this for debugging
         } else {
             //installerType = "deb"
         }
