@@ -1,3 +1,5 @@
+import java.util.UUID
+
 plugins {
     java
     application
@@ -50,7 +52,13 @@ if (os.isWindows) {
 }
 
 jlink {
-    addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages", "--verbose")
+    addOptions(
+        "--strip-debug",
+        "--compress", "2",
+        "--no-header-files",
+        "--no-man-pages",
+        "--verbose"
+    )
     jpackage {
         vendor = "Some Corp"
         jvmArgs.add("--enable-preview")
@@ -58,10 +66,16 @@ jlink {
         if(os.isMacOsX) {
             //installerType = "app-image"
         } else if(os.isWindows) {
-            //installerType = "msi"
-            installerOptions.addAll(listOf("--win-per-user-install", "--win-dir-chooser", "--win-menu", "--win-console"))
+            installerType = "msi" // Only generate the msi installer, since the behavior for MSIs and EXEs differs
+            installerOptions.addAll(listOf(
+                "--win-per-user-install",
+                "--win-dir-chooser",
+                "--win-menu",
+                "--win-upgrade-uuid", "80665aec-76da-4a5d-9e84-1bea04a7fbb0", // Update this UUID if you fork the project!!!
+                "--win-console"))
         } else {
             //installerType = "deb"
         }
     }
 }
+UUID.fromString("")
