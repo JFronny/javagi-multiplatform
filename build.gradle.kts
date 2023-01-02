@@ -43,7 +43,7 @@ if (os.isWindows) {
         doLast {
             copy {
                 from(zipTree(downloadNatives.get().dest))
-                into(buildDir.resolve("jpackage/${project.name}/app/natives"))
+                into(buildDir.resolve("jpackage/${project.name}/runtime/bin"))
             }
         }
     }
@@ -55,9 +55,6 @@ jlink {
         vendor = "Some Corp"
         jvmArgs.add("--enable-preview")
         installerName = "JavaGI Multiplatform Example"
-        if (os.isWindows) {
-            jvmArgs.add("-Djavagi.path=\$APPDIR/natives")
-        }
         if(os.isMacOsX) {
             //installerType = "app-image"
         } else if(os.isWindows) {
