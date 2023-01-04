@@ -17,8 +17,7 @@ repositories {
     mavenCentral()
     // Mirror for javagi maven, since that requires authentication
     // and I didn't want to figure out how to pass the GitHub Actions token here
-    // Also, the build hosted here includes the libload branches changes, which are needed for windows support
-    maven("https://maven.frohnmeyer-wds.de/javagi-libload")
+    maven("https://maven.frohnmeyer-wds.de/javagi")
 }
 
 dependencies {
@@ -33,7 +32,7 @@ val os = org.gradle.internal.os.OperatingSystem.current()!!
 
 if (os.isWindows) {
     val downloadNatives by tasks.registering(de.undercouch.gradle.tasks.download.Download::class) {
-        src("https://github.com/JFronny/javagi-multiplatform/releases/download/natives/natives.zip")
+        src("https://github.com/jwharm/java-gi/releases/download/natives/natives.zip")
         dest(buildDir.resolve("natives.zip"))
         overwrite(false)
     }
