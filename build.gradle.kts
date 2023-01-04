@@ -17,7 +17,7 @@ repositories {
     mavenCentral()
     // Mirror for javagi maven, since that requires authentication
     // and I didn't want to figure out how to pass the GitHub Actions token here
-    maven("https://maven.frohnmeyer-wds.de/javagi")
+    maven("https://maven.frohnmeyer-wds.de/java-gi")
 }
 
 dependencies {
