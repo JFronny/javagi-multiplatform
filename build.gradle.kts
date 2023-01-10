@@ -29,6 +29,7 @@ tasks.compileJava.get().options.compilerArgs.add("--enable-preview")
 tasks.run.get().jvmArgs!!.add("--enable-preview")
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
+val appName = "JavaGI Multiplatform Example"
 
 if (os.isWindows) {
     val downloadNatives by tasks.registering(de.undercouch.gradle.tasks.download.Download::class) {
@@ -42,7 +43,7 @@ if (os.isWindows) {
         doLast {
             copy {
                 from(zipTree(downloadNatives.get().dest))
-                into(buildDir.resolve("jpackage/${project.name}/app"))
+                into(buildDir.resolve("jpackage/$appName/app"))
             }
         }
     }
@@ -57,7 +58,7 @@ jlink {
         "--verbose"
     )
     launcher {
-        name = "JavaGI Multiplatform Example"
+        name = appName
     }
     jpackage {
         vendor = "Some Corp"
