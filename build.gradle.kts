@@ -56,6 +56,9 @@ jlink {
         "--no-man-pages",
         "--verbose"
     )
+    launcher {
+        name = "JavaGI Multiplatform Example"
+    }
     jpackage {
         vendor = "Some Corp"
         jvmArgs.addAll(listOf(
@@ -63,7 +66,6 @@ jlink {
             "--enable-native-access=org.glib",
             "--enable-native-access=org.gtk"
         ))
-        installerName = "JavaGI Multiplatform Example"
         if(os.isMacOsX) {
             //installerType = "app-image"
         } else if(os.isWindows) {
