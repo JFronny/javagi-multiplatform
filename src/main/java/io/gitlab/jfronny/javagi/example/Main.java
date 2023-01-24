@@ -28,11 +28,11 @@ public class Main {
         window.show();
     }
 
-    private void run(String[] args) {
-        app.run(args.length, args);
+    private int run(String[] args) {
+        return app.run(args);
     }
 
     public static void main(String[] args) {
-        new Main().run(args);
+        System.exit(new Main().run(args));
     }
 }

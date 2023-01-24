@@ -25,8 +25,8 @@ dependencies {
     implementation("io.github.jwharm.javagi:glib:0.3-SNAPSHOT")
 }
 
-tasks.compileJava.get().options.compilerArgs.add("--enable-preview")
-tasks.run.get().jvmArgs!!.add("--enable-preview")
+tasks.compileJava { options.compilerArgs.add("--enable-preview") }
+tasks.run.configure { jvmArgs("--enable-preview") }
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
 val appName = "JavaGI Multiplatform Example"
