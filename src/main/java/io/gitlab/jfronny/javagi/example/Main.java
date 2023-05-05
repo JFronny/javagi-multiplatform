@@ -1,7 +1,7 @@
 package io.gitlab.jfronny.javagi.example;
 
-import org.gtk.gio.ApplicationFlags;
-import org.gtk.gtk.*;
+import org.gnome.gio.ApplicationFlags;
+import org.gnome.gtk.*;
 
 public class Main {
     private final Application app;

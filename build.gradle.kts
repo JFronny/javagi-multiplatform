@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jwharm.javagi:gtk4:0.3-SNAPSHOT")
-    implementation("io.github.jwharm.javagi:glib:0.3-SNAPSHOT")
+    implementation("io.github.jwharm.javagi:glib:1.2.10-0.4")
+    implementation("io.github.jwharm.javagi:gtk:4.8.3-0.4")
 }
 
 tasks.compileJava { options.compilerArgs.add("--enable-preview") }

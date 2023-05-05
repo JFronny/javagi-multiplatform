@@ -1,4 +1,4 @@
 module io.gitlab.jfronny.javagi.example {
-    requires org.gtk;
-    requires org.glib;
+    requires org.gnome.gtk;
+    requires org.gnome.glib;
 }
