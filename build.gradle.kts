@@ -64,8 +64,8 @@ jlink {
         vendor = "Some Corp"
         jvmArgs.addAll(listOf(
             "--enable-preview",
-            "--enable-native-access=org.glib",
-            "--enable-native-access=org.gtk"
+            "--enable-native-access=org.gnome.gtk",
+            "--enable-native-access=org.gnome.glib"
         ))
         if(os.isMacOsX) {
             //installerType = "app-image"
