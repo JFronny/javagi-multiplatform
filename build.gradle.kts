@@ -45,7 +45,6 @@ if (os.isWindows) {
 jlink {
     addOptions(
         "--strip-debug",
-        "--compress", "2",
         "--no-header-files",
         "--no-man-pages",
         "--verbose"
