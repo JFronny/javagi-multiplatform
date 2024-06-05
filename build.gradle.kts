@@ -1,8 +1,8 @@
 plugins {
     java
     application
-    id("org.beryx.jlink") version "2.26.0"
-    id("de.undercouch.download") version "5.3.0"
+    id("org.beryx.jlink") version "3.0.1"
+    id("de.undercouch.download") version "5.6.0"
 }
 
 group = "io.gitlab.jfronny"
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jwharm.javagi:gtk:0.10.0")
+    implementation("io.github.jwharm.javagi:gtk:0.10.1")
 }
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
