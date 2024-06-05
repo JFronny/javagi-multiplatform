@@ -24,13 +24,24 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.tag }}
+          repository: 'GNOME/gtk'
+          submodules: recursive
+          path: gtk
+      - name: Clone libadwaita tree
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
           repository: 'GNOME/libadwaita'
           submodules: recursive
+          path: libadwaita
       - name: Perform Build
         run: |
-          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dgtk4:build-tests=false -Dgtk4:media-gstreamer=disabled -Dgtk4:vulkan=disabled
-          meson compile -C build
-          meson install -C build
+          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled -C gtk
+          meson compile -C gtk\build
+          meson install -C gtk\build
+          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -C libadwaita
+          meson compile -C libadwaita\build
+          meson install -C libadwaita\build
           cd dist\bin
           7z a ..\..\natives.zip *.dll
           7z a ..\..\executable.zip *.exe
