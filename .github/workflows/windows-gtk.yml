@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.tag }}
-          repository: 'GNOME/gtk'
+          repository: 'GNOME/libadwaita'
           submodules: recursive
       - name: Perform Build
         run: |
