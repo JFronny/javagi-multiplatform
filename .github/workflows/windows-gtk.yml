@@ -7,8 +7,11 @@ on:
         description: 'Upload artifacts as release'
         required: true
         type: boolean
-      tag:
-        description: 'The tag to clone'
+      gtktag:
+        description: 'The GTK tag to clone'
+        required: true
+      libadwaitatag:
+        description: 'The libadwaita tag to clone'
         required: true
 
 jobs:
@@ -23,14 +26,14 @@ jobs:
       - name: Clone GTK tree
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ inputs.gtktag }}
           repository: 'GNOME/gtk'
           submodules: recursive
           path: gtk
       - name: Clone libadwaita tree
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ inputs.libadwaitatag }}
           repository: 'GNOME/libadwaita'
           submodules: recursive
           path: libadwaita
@@ -65,7 +68,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "libraries"
           prerelease: false
-          title: "GTK Natives for ${{ inputs.tag }}"
+          title: "GTK Natives for ${{ inputs.gtktag }}"
           files: |
             natives.zip
             executable.zip
