@@ -39,10 +39,10 @@ jobs:
           path: libadwaita
       - name: Perform Build
         run: |
-          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled -C gtk
+          meson setup gtk\build gtk --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C gtk\build
           meson install -C gtk\build
-          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -C libadwaita
+          meson setup libadwaita\build libadwaita --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
           cd dist\bin
