@@ -43,7 +43,7 @@ jobs:
           meson compile -C gtk\build
           meson install -C gtk\build
           $env:Path += ";${{ github.workspace }}\dist\bin"
-          meson setup libadwaita\build libadwaita --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
+          meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
           cd dist\bin
