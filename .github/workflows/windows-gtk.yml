@@ -13,21 +13,12 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        toolchain: [ 'mingw', 'msvc' ]
     runs-on: windows-latest
 
     steps:
-      - name: Install GCC Dependencies
-        if: ${{ matrix.toolchain == 'mingw' }}
+      - name: Install Dependencies
         run: |
           choco uninstall -y mingw strawberryperl cmake.install llvm
-          pip install meson ninja
-      - name: Install MSVC Dependencies
-        if: ${{ matrix.toolchain == 'msvc' }}
-        run: |
-          choco uninstall -y mingw gcc strawberryperl cmake.install llvm
           pip install meson ninja
       - name: Clone GTK tree
         uses: actions/checkout@v4
@@ -61,9 +52,9 @@ jobs:
         if: ${{ inputs.release }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "libraries-${{ matrix.toolchain }}"
+          automatic_release_tag: "libraries"
           prerelease: false
-          title: "GTK Natives for ${{ inputs.tag }} (${{ matrix.toolchain }})"
+          title: "GTK Natives for ${{ inputs.tag }}"
           files: |
             natives.zip
             executable.zip
