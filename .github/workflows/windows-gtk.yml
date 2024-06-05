@@ -21,7 +21,7 @@ jobs:
           choco uninstall -y mingw strawberryperl cmake.install llvm
           pip install meson ninja
       - name: Clone GTK tree
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.tag }}
           repository: 'GNOME/gtk'
@@ -36,13 +36,13 @@ jobs:
           7z a ..\..\executable.zip *.exe
           cd ..\..
       - name: Library artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libraries
           path: |
             dist\bin\*.dll
       - name: Application artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libraries
           path: |
