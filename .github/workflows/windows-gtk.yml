@@ -28,7 +28,7 @@ jobs:
           submodules: recursive
       - name: Perform Build
         run: |
-          CC=${{ matrix.toolchain == 'mingw' && 'gcc' || 'msvc' }} meson setup build --prefix ${{ github.workspace }}\dist --buildtype release -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
+          meson setup build --prefix ${{ github.workspace }}\dist --buildtype release -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C build
           meson install -C build
           cd dist\bin
