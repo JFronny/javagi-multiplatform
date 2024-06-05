@@ -38,6 +38,10 @@ if (os.isWindows) {
                 from(zipTree(downloadNatives.get().dest))
                 into(layout.buildDirectory.dir("jpackage/$appName/app"))
             }
+            copy {
+                from(zipTree(downloadNatives.get().dest))
+                into(layout.buildDirectory.dir("jpackage/$appName/runtime/bin"))
+            }
         }
     }
 }
@@ -56,7 +60,9 @@ jlink {
         vendor = "Some Corp"
         jvmArgs.addAll(listOf(
             "--enable-native-access=org.gnome.gtk",
-            "--enable-native-access=org.gnome.glib"
+            "--enable-native-access=org.gnome.glib",
+            "--enable-native-access=org.gnome.gobject",
+            "--enable-native-access=org.gnome.gio"
         ))
         if(os.isMacOsX) {
             //installerType = "app-image"
