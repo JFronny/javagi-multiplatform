@@ -20,7 +20,7 @@ public class Main {
         box.setHalign(Align.CENTER);
         box.setValign(Align.CENTER);
 
-        var button = Button.newWithLabel("Hello, World!");
+        var button = Button.withLabel("Hello, World!");
         button.onClicked(window::close);
 
         box.append(button);

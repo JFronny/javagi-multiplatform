@@ -15,26 +15,19 @@ application {
 
 repositories {
     mavenCentral()
-    // Mirror for javagi maven, since that requires authentication
-    // and I didn't want to figure out how to pass the GitHub Actions token here
-    maven("https://maven.frohnmeyer-wds.de/java-gi")
 }
 
 dependencies {
-    implementation("io.github.jwharm.javagi:glib:1.2.10-0.4")
-    implementation("io.github.jwharm.javagi:gtk:4.8.3-0.4")
+    implementation("io.github.jwharm.javagi:gtk:0.10.0")
 }
-
-tasks.compileJava { options.compilerArgs.add("--enable-preview") }
-tasks.run.configure { jvmArgs("--enable-preview") }
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
 val appName = "JavaGI Multiplatform Example"
 
 if (os.isWindows) {
     val downloadNatives by tasks.registering(de.undercouch.gradle.tasks.download.Download::class) {
-        src("https://github.com/jwharm/java-gi/releases/download/natives/natives.zip")
-        dest(buildDir.resolve("natives.zip"))
+        src("https://github.com/JFronny/javagi-multiplatform/releases/download/libraries/natives.zip")
+        dest(layout.buildDirectory.file("natives.zip"))
         overwrite(false)
     }
 
@@ -43,7 +36,7 @@ if (os.isWindows) {
         doLast {
             copy {
                 from(zipTree(downloadNatives.get().dest))
-                into(buildDir.resolve("jpackage/$appName/app"))
+                into(layout.buildDirectory.dir("jpackage/$appName/app"))
             }
         }
     }
@@ -63,7 +56,6 @@ jlink {
     jpackage {
         vendor = "Some Corp"
         jvmArgs.addAll(listOf(
-            "--enable-preview",
             "--enable-native-access=org.gnome.gtk",
             "--enable-native-access=org.gnome.glib"
         ))
