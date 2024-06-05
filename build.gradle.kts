@@ -38,6 +38,10 @@ if (os.isWindows) {
                 from(zipTree(downloadNatives.get().dest))
                 into(layout.buildDirectory.dir("jpackage/$appName/app"))
             }
+            copy {
+                from(zipTree(downloadNatives.get().dest))
+                into(layout.buildDirectory.dir("jpackage/$appName/runtime/bin"))
+            }
         }
     }
 }
