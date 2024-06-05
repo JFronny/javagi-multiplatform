@@ -42,7 +42,7 @@ jobs:
           meson setup gtk\build gtk --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C gtk\build
           meson install -C gtk\build
-          set PATH=%PATH%;${{ github.workspace }}\dist\bin
+          $env:Path += "${{ github.workspace }}\dist\bin"
           meson setup libadwaita\build libadwaita --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
