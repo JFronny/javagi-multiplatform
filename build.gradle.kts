@@ -46,6 +46,16 @@ if (os.isWindows) {
     }
 }
 
+fun computeDebugVersion(): String {
+    val time = System.currentTimeMillis() / 1000 / 60 / 5; // 5 minute intervals
+    // installer versions MUST be  [0-255].[0-255].[0-65535]
+    // in other words,  8,8,16 bits
+    val major = (time / (256 * 65536))
+    val minor = (time / 65536) % 256
+    val patch = time % 65536
+    return "$major.$minor.$patch"
+}
+
 jlink {
     addOptions(
         "--strip-debug",
@@ -74,7 +84,7 @@ jlink {
                 "--win-menu",
                 "--win-upgrade-uuid", "1d2e433e-f2e1-43bc-9cd4-60d1ec6b7833" // Update this UUID if you fork the project!!!
            ))
-            appVersion = "$version.${System.currentTimeMillis() / 1000}" // ensure every debug build has a unique version to allow updates
+            appVersion = computeDebugVersion() // ensure every debug build has a unique version to allow updates. ONLY do this for debug builds (and ensure they use a different UUID!)
             //imageOptions.add("--win-console") // Enable this for debugging
         } else {
             //installerType = "deb"
