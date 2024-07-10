@@ -15,11 +15,10 @@ application {
 
 repositories {
     mavenCentral()
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") // javagi snapshots
 }
 
 dependencies {
-    implementation("io.github.jwharm.javagi:gtk:0.10.2-SNAPSHOT")
+    implementation("io.github.jwharm.javagi:gtk:0.10.2")
 }
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
@@ -75,6 +74,7 @@ jlink {
                 "--win-menu",
                 "--win-upgrade-uuid", "1d2e433e-f2e1-43bc-9cd4-60d1ec6b7833" // Update this UUID if you fork the project!!!
            ))
+            appVersion = "$version.${System.currentTimeMillis() / 1000}" // ensure every debug build has a unique version to allow updates
             //imageOptions.add("--win-console") // Enable this for debugging
         } else {
             //installerType = "deb"
