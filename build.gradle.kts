@@ -47,7 +47,7 @@ if (os.isWindows) {
 }
 
 fun computeDebugVersion(): String {
-    val time = System.currentTimeMillis() / 1000 / 60 / 5; // 5 minute intervals
+    val time = System.currentTimeMillis() / 1000 / 60 / 5 // 5 minute intervals
     // installer versions MUST be  [0-255].[0-255].[0-65535]
     // in other words,  8,8,16 bits
     val major = (time / (256 * 65536))
