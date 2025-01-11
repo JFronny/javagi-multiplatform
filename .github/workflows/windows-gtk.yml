@@ -19,6 +19,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Clone
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          path: scripts
       - name: Install Dependencies
         run: |
           choco uninstall -y mingw strawberryperl cmake.install llvm
@@ -37,6 +42,14 @@ jobs:
           cp pkgdist\bin\pkgconf.exe pkgdist\bin\pkg-config.exe
           cp pkgdist\bin\pkgconf.exe pkg-config.exe
           echo "${{ github.workspace }}\pkgdist\bin" >> "$GITHUB_PATH"
+      - name: Download winflexbison and gettext
+        run: |
+          curl https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -o win_flex_bison.zip
+          7z x win_flex_bison.zip -owin_flex_bison
+          echo "${{ github.workspace }}\win_flex_bison" >> "$GITHUB_PATH"
+          curl https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.23-v1.17/gettext0.23-iconv1.17-static-64.zip -o gettext.zip
+          7z x gettext.zip -ogettext
+          echo "${{ github.workspace }}\gettext\bin" >> "$GITHUB_PATH"
       - name: Clone GTK tree
         uses: actions/checkout@v4
         with:
@@ -46,7 +59,7 @@ jobs:
           path: gtk
       - name: Build GTK
         run: |
-          meson setup gtk\build gtk --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
+          meson setup gtk\build gtk --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C gtk\build
           meson install -C gtk\build
           cd dist\bin
@@ -55,6 +68,17 @@ jobs:
           cd ..\..
           cp natives.zip natives-gtk.zip
           cp executable.zip executable-gtk.zip
+      - name: Clone gobject-introspection
+        uses: actions/checkout@v4
+        with:
+          repository: 'GNOME/gobject-introspection'
+          submodules: recursive
+          path: gobject-introspection
+      - name: Build gobject-introspection
+        run: |
+          meson setup gobject-introspection\build gobject-introspection --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
+          meson compile -C gobject-introspection\build
+          meson install -C gobject-introspection\build
           echo "${{ github.workspace }}\dist\bin" >> "$GITHUB_PATH"
       - name: Clone libadwaita tree
         uses: actions/checkout@v4
@@ -65,12 +89,13 @@ jobs:
           path: libadwaita
       - name: Build libadwaita
         run: |
-          meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
+          git -C libadwaita apply ${{ github.workspace }}/scripts/.github/libadwaita-appstream.diff
+          meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dvapi=false -Dexamples=false
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
           cd dist\bin
-          7z a ..\..\natives.zip *.dll
-          7z a ..\..\executable.zip *.exe
+          7z a ..\..\natives-adw.zip *.dll
+          7z a ..\..\executable-adw.zip *.exe
           cd ..\..
       - name: Library artifact
         uses: actions/upload-artifact@v4
