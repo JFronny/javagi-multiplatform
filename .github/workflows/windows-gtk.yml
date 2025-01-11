@@ -29,6 +29,14 @@ jobs:
           repository: 'pkgconf/pkgconf'
           submodules: recursive
           path: pkgconf
+      - name: Build pkgconf
+        run: |
+          meson setup pkgconf\build pkgconf --prefix ${{ github.workspace }}\pkgdist -Dtests=disabled --vsenv
+          meson compile -C pkgconf\build
+          meson install -C pkgconf\build
+          cp pkgdist\bin\pkgconf.exe pkgdist\bin\pkg-config.exe
+          cp pkgdist\bin\pkgconf.exe pkg-config.exe
+          echo "${{ github.workspace }}\pkgdist\bin" >> "$GITHUB_PATH"
       - name: Clone GTK tree
         uses: actions/checkout@v4
         with:
@@ -36,21 +44,8 @@ jobs:
           repository: 'GNOME/gtk'
           submodules: recursive
           path: gtk
-      - name: Clone libadwaita tree
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.libadwaitatag }}
-          repository: 'GNOME/libadwaita'
-          submodules: recursive
-          path: libadwaita
-      - name: Perform Build
+      - name: Build GTK
         run: |
-          meson setup pkgconf\build pkgconf --prefix ${{ github.workspace }}\pkgdist -Dtests=disabled --vsenv
-          meson compile -C pkgconf\build
-          meson install -C pkgconf\build
-          cp pkgdist\bin\pkgconf.exe pkgdist\bin\pkg-config.exe
-          cp pkgdist\bin\pkgconf.exe pkg-config.exe
-          $env:Path += ";${{ github.workspace }}\pkgdist\bin"
           meson setup gtk\build gtk --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C gtk\build
           meson install -C gtk\build
@@ -58,7 +53,18 @@ jobs:
           7z a ..\..\natives.zip *.dll
           7z a ..\..\executable.zip *.exe
           cd ..\..
-          $env:Path += ";${{ github.workspace }}\dist\bin"
+          cp natives.zip natives-gtk.zip
+          cp executable.zip executable-gtk.zip
+          echo "${{ github.workspace }}\dist\bin" >> "$GITHUB_PATH"
+      - name: Clone libadwaita tree
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.libadwaitatag }}
+          repository: 'GNOME/libadwaita'
+          submodules: recursive
+          path: libadwaita
+      - name: Build libadwaita
+        run: |
           meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
@@ -66,8 +72,6 @@ jobs:
           7z a ..\..\natives.zip *.dll
           7z a ..\..\executable.zip *.exe
           cd ..\..
-          cp natives.zip natives-adw.zip
-          cp executable.zip executable-adw.zip
       - name: Library artifact
         uses: actions/upload-artifact@v4
         with:
