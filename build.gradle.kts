@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jwharm.javagi:gtk:0.10.2")
+    implementation("io.github.jwharm.javagi:adw:0.11.2") // or gtk for pure GTK
 }
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
@@ -26,7 +26,7 @@ val appName = "JavaGI Multiplatform Example"
 
 if (os.isWindows) {
     val downloadNatives by tasks.registering(de.undercouch.gradle.tasks.download.Download::class) {
-        src("https://github.com/jwharm/java-gi/releases/download/libraries/natives.zip")
+        src("https://github.com/jwharm/java-gi/releases/download/libraries/natives-adw.zip") // or natives-gtk for pure GTK
         dest(layout.buildDirectory.file("natives.zip"))
         overwrite(false)
     }
@@ -72,7 +72,8 @@ jlink {
             "--enable-native-access=org.gnome.gtk",
             "--enable-native-access=org.gnome.glib",
             "--enable-native-access=org.gnome.gobject",
-            "--enable-native-access=org.gnome.gio"
+            "--enable-native-access=org.gnome.gio",
+            "--enable-native-access=org.gnome.adw"
         ))
         if(os.isMacOsX) {
             //installerType = "app-image"

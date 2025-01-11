@@ -1,5 +1,7 @@
 package io.gitlab.jfronny.javagi.example;
 
+import org.gnome.adw.Application;
+import org.gnome.adw.ApplicationWindow;
 import org.gnome.gio.ApplicationFlags;
 import org.gnome.gtk.*;
 
@@ -24,7 +26,7 @@ public class Main {
         button.onClicked(window::close);
 
         box.append(button);
-        window.setChild(box);
+        window.setContent(box);
         window.show();
     }
 
