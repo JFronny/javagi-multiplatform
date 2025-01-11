@@ -44,10 +44,10 @@ jobs:
           echo "${{ github.workspace }}\pkgdist\bin" >> "$GITHUB_PATH"
       - name: Download winflexbison and gettext
         run: |
-          curl https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -o win_flex_bison.zip
+          curl -L https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -o win_flex_bison.zip
           7z x win_flex_bison.zip -owin_flex_bison
           echo "${{ github.workspace }}\win_flex_bison" >> "$GITHUB_PATH"
-          curl https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.23-v1.17/gettext0.23-iconv1.17-static-64.zip -o gettext.zip
+          curl -L https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.23-v1.17/gettext0.23-iconv1.17-static-64.zip -o gettext.zip
           7z x gettext.zip -ogettext
           echo "${{ github.workspace }}\gettext\bin" >> "$GITHUB_PATH"
       - name: Clone GTK tree
