@@ -26,7 +26,7 @@ val appName = "JavaGI Multiplatform Example"
 
 if (os.isWindows) {
     val downloadNatives by tasks.registering(de.undercouch.gradle.tasks.download.Download::class) {
-        src("https://github.com/JFronny/javagi-multiplatform/releases/download/libraries/natives-adw.zip") // or natives-gtk for pure GTK
+        src("https://github.com/jwharm/java-gi/releases/download/libraries/natives-adw.zip") // or natives-gtk for pure GTK
         dest(layout.buildDirectory.file("natives.zip"))
         overwrite(false)
     }
