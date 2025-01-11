@@ -49,10 +49,15 @@ jobs:
           meson compile -C pkgconf\build
           meson install -C pkgconf\build
           cp pkgdist\bin\pkgconf.exe pkgdist\bin\pkg-config.exe
+          cp pkgdist\bin\pkgconf.exe pkg-config.exe
           $env:Path += ";${{ github.workspace }}\pkgdist\bin"
           meson setup gtk\build gtk --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dbuild-tests=false -Dmedia-gstreamer=disabled -Dvulkan=disabled
           meson compile -C gtk\build
           meson install -C gtk\build
+          cd dist\bin
+          7z a ..\..\natives.zip *.dll
+          7z a ..\..\executable.zip *.exe
+          cd ..\..
           $env:Path += ";${{ github.workspace }}\dist\bin"
           meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
           meson compile -C libadwaita\build
@@ -61,6 +66,8 @@ jobs:
           7z a ..\..\natives.zip *.dll
           7z a ..\..\executable.zip *.exe
           cd ..\..
+          cp natives.zip natives-adw.zip
+          cp executable.zip executable-adw.zip
       - name: Library artifact
         uses: actions/upload-artifact@v4
         with:
@@ -73,6 +80,7 @@ jobs:
           name: applications
           path: |
             dist\bin\*.exe
+            pkg-config.exe
       - name: Generate Release
         uses: "marvinpinto/action-automatic-releases@latest"
         if: ${{ inputs.release }}
@@ -84,3 +92,8 @@ jobs:
           files: |
             natives.zip
             executable.zip
+            natives-gtk.zip
+            executable-gtk.zip
+            natives-adw.zip
+            executable-adw.zip
+            pkg-config.exe
