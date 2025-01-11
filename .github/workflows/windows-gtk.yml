@@ -113,13 +113,12 @@ jobs:
             dist\bin\*.exe
             pkg-config.exe
       - name: Generate Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: softprops/action-gh-release@v2
         if: ${{ inputs.release }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "libraries"
-          prerelease: false
-          title: "Natives for GTK ${{ inputs.gtktag }} and libadwaita ${{ inputs.libadwaitatag }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: "libraries"
+          name: "Natives for GTK ${{ inputs.gtktag }} and libadwaita ${{ inputs.libadwaitatag }}"
           files: |
             natives.zip
             executable.zip
