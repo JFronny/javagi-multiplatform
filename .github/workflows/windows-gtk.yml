@@ -76,7 +76,7 @@ jobs:
           path: gobject-introspection
       - name: Build gobject-introspection
         run: |
-          meson setup gobject-introspection\build gobject-introspection --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true
+          meson setup gobject-introspection\build gobject-introspection --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dglib2:introspection=enabled
           meson compile -C gobject-introspection\build
           meson install -C gobject-introspection\build
       - name: Clone libadwaita tree
