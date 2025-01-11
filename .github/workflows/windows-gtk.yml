@@ -40,7 +40,6 @@ jobs:
           meson compile -C pkgconf\build
           meson install -C pkgconf\build
           cp pkgdist\bin\pkgconf.exe pkgdist\bin\pkg-config.exe
-          cp pkgdist\bin\pkgconf.exe pkg-config.exe
           echo "${{ github.workspace }}\pkgdist\bin" >> "$GITHUB_PATH"
       - name: Download winflexbison and gettext
         run: |
@@ -90,13 +89,16 @@ jobs:
       - name: Build libadwaita
         run: |
           git -C libadwaita apply ${{ github.workspace }}/scripts/.github/libadwaita-appstream.diff
-          meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dvapi=false -Dexamples=false
+          meson setup libadwaita\build libadwaita --pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --build.pkg-config-path ${{ github.workspace }}\dist\lib\pkgconfig --prefix ${{ github.workspace }}\dist --buildtype release --vsenv -Db_pie=true -Dvapi=false -Dexamples=false -Dtests=false -Dintrospection=disabled
           meson compile -C libadwaita\build
           meson install -C libadwaita\build
           cd dist\bin
           7z a ..\..\natives-adw.zip *.dll
           7z a ..\..\executable-adw.zip *.exe
           cd ..\..
+      - name: Finish up
+        run: |
+          cp pkgdist\bin\pkg-config.exe pkg-config.exe
       - name: Library artifact
         uses: actions/upload-artifact@v4
         with:
